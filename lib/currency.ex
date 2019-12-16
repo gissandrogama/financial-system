@@ -3,4 +3,8 @@ defmodule FinancialSystem.Currency do
   Module that has functions for handling currency operations
   """
 
+  @doc """
+  """
+  
+
 end
