@@ -1,6 +1,6 @@
 defmodule FinancialSystem.Currency do
   @moduledoc """
-  Module that has functions for handling currency operations
+  Module with file parsing and currency validating functions. 
   """
 
   @doc """
@@ -25,9 +25,8 @@ defmodule FinancialSystem.Currency do
 
 
   @doc """
-  Function whant validate the currency 
+  Function that validates the currency according to the code established by ISO 4217.
   """
-
   @spec is_valid?(atom) :: boolean()
   def is_valid?(currency_validetion) do
     FinancialSystem.Currency.parse("currency_rates.txt")
