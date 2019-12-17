@@ -1,13 +1,10 @@
 defmodule FinancialSystem.Account do
-
-  alias Money
-
   @moduledoc """
   Account structure module and function to create an account, using the lib Money.
-  """
+  """  
 
   @enforce_keys [:name, :email]
-  defstruct [name: nil , email: nil, balance: Money.new(0, :BRL)]
+  defstruct name: nil, email: nil, balance: Money.new(0, :BRL)
 
   alias __MODULE__
 
@@ -31,5 +28,4 @@ defmodule FinancialSystem.Account do
   def new(name, email, amount, currency) do
     %Account{name: name, email: email, balance: Money.new(amount, currency)}
   end
-
 end

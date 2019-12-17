@@ -3,11 +3,12 @@ defmodule AccountTest do
   doctest FinancialSystem.Account
 
   setup_all do
-    {:ok, [account1: FinancialSystem.Account.new("Gissandro","gissandrogama@gmail.com", 100, :BRL)]}
+    {:ok,
+     [account1: FinancialSystem.Account.new("Gissandro", "gissandrogama@gmail.com", 100, :BRL)]}
   end
 
   test "Users create accounts in any currencies" do
-    #Create account of user
+    # Create account of user
     assert FinancialSystem.Account.new("João Bacara", "bacara@gmail.com", 200, :BRL)
     assert FinancialSystem.Account.new("Antonio Kiba", "kiba@gmail.com", 300, :USD)
     assert FinancialSystem.Account.new("Gleison Cupu", "cupu@gmail.com", 400, :EUR)
