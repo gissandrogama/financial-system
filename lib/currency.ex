@@ -4,6 +4,7 @@ defmodule FinancialSystem.Currency do
   """
 
   @doc """
+  Parse of files of text whant have information of currences 
   """
   @spec parse(String.t()) :: [key: float]
   def parse(file) do
@@ -21,6 +22,4 @@ defmodule FinancialSystem.Currency do
       {key, String.to_float(rate)}
     end)
   end
-
-  
 end

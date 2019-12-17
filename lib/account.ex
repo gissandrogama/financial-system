@@ -1,7 +1,7 @@
 defmodule FinancialSystem.Account do
   @moduledoc """
   Account structure module and function to create an account, using the lib Money.
-  """  
+  """
 
   @enforce_keys [:name, :email]
   defstruct name: nil, email: nil, balance: Money.new(0, :BRL)
