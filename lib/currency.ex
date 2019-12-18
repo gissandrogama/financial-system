@@ -4,7 +4,11 @@ defmodule FinancialSystem.Currency do
   """
 
   @doc """
-  Parse of files of text whant have information of currences 
+  Parse of files of text whant have information of currences.
+  
+  ##Examples
+
+  
   """
   @spec parse(String.t()) :: [key: float]
   def parse(file) do
@@ -25,6 +29,12 @@ defmodule FinancialSystem.Currency do
 
   @doc """
   Function that validates the currency according to the code established by ISO 4217.
+
+  ##Examples
+  iex(2)> FinancialSystem.Currency.is_valid?(:USD) 
+  true
+  iex(3)> FinancialSystem.Currency.is_valid?(:USS)
+  false
   """
   @spec is_valid?(atom) :: boolean()
   def is_valid?(currency_validetion) do

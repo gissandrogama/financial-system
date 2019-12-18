@@ -4,15 +4,13 @@ defmodule FinancialSystem do
   """
 
   @doc """
-  Hello world.
-
+  
   ## Examples
 
       iex> FinancialSystem.hello()
       :world
 
   """
-  def hello do
-    :world
-  end
+  
+
 end
