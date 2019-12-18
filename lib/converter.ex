@@ -54,5 +54,16 @@ defmodule FinancialSystem.Converter do
     end
   end
 
+  @doc """
+
+  """
+  @spec exchange(float, atom, atom) :: {:ok, float} | {:error, String.t()}
+  def exchange(amount, from, to) do
+    usd_value = FinancialSystem.Currency.exchange!(amount, from, :USD)
+    FinancialSystem.Currency.exchange!(usd_value, :USD, to)
+  end
+
+  
+
 
 end
