@@ -41,7 +41,7 @@ defmodule FinancialSystem.Converter do
         rate_from = Decimal.from_float(rates[from])
 
         converted_amount =
-          Decimal.mult(value_amount, rate_from)
+          Decimal.div(value_amount, rate_from)
           |> Decimal.round(2)
           |> Decimal.to_float()
 
