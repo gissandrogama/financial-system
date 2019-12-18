@@ -23,7 +23,6 @@ defmodule FinancialSystem.Currency do
     end)
   end
 
-
   @doc """
   Function that validates the currency according to the code established by ISO 4217.
   """
@@ -33,5 +32,4 @@ defmodule FinancialSystem.Currency do
     |> Keyword.keys()
     |> Enum.any?(fn currency -> currency == currency_validetion end)
   end
-
 end
