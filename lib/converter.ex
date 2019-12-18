@@ -1,10 +1,10 @@
 defmodule FinancialSystem.Converter do
+
   alias FinancialSystem.Currency, as: Currency
 
   @moduledoc """
   Module that treats operations such as currency conversion.
   """
-
 
   @doc false
   def exchange(amount, from_coin, to_coin) when from_coin == to_coin do
