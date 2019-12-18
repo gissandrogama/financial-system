@@ -1,5 +1,4 @@
 defmodule FinancialSystem.Converter do
-
   alias FinancialSystem.Currency, as: Currency
 
   @moduledoc """
@@ -12,6 +11,7 @@ defmodule FinancialSystem.Converter do
       true -> {:ok, amount}
       false -> {:error, "Coin (#{from_coin}) not valid compared to ISO 4271"}
     end
+
     case Currency.is_valid?(to_coin) do
       true -> {:ok, amount}
       false -> {:error, "Coin (#{to_coin}) not valid compared to ISO 4271"}

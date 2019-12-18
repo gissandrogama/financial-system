@@ -4,13 +4,11 @@ defmodule FinancialSystem do
   """
 
   @doc """
-  
+
   ## Examples
 
       iex> FinancialSystem.hello()
       :world
 
   """
-  
-
 end

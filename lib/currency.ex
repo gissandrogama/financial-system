@@ -5,10 +5,10 @@ defmodule FinancialSystem.Currency do
 
   @doc """
   Parse of files of text whant have information of currences.
-  
+
   ##Examples
 
-  
+
   """
   @spec parse(String.t()) :: [key: float]
   def parse(file) do
