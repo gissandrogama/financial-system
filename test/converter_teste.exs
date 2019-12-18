@@ -35,4 +35,10 @@ defmodule ConverterTest do
     end
   end
 
+  test "invalid currency conversion attempt" do
+    assert_raise RuntimeError, fn ->
+      FinancialSystem.Converter.exchange(1.00, :RRR, :USD)
+    end
+  end
+
 end
