@@ -1,5 +1,5 @@
 defmodule FinancialSystem.Converter do
-  alias FinancialSystem.Currency, as: Currency
+  alias FinancialSystem.Coin, as: Coin
 
   @moduledoc """
   Module that treats operations such as currency conversion.
@@ -7,21 +7,21 @@ defmodule FinancialSystem.Converter do
 
   @doc false
   def exchange(amount, from_coin, to_coin) when from_coin == to_coin do
-    case Currency.is_valid?(from_coin) do
+    case Coin.is_valid?(from_coin) do
       true -> {:ok, amount}
       false -> {:error, "Coin (#{from_coin}) not valid compared to ISO 4271"}
     end
 
-    case Currency.is_valid?(to_coin) do
+    case Coin.is_valid?(to_coin) do
       true -> {:ok, amount}
       false -> {:error, "Coin (#{to_coin}) not valid compared to ISO 4271"}
     end
   end
 
   def exchange(amount, :USD, to) do
-    case Currency.is_valid?(to) do
+    case Coin.is_valid?(to) do
       true ->
-        rates = FinancialSystem.Currency.parse("currency_rates.txt")
+        rates = FinancialSystem.Coin.examiner("currency_rates.txt")
         value_amount = Decimal.from_float(amount)
         rate_to = Decimal.from_float(rates[to])
 
@@ -38,9 +38,9 @@ defmodule FinancialSystem.Converter do
   end
 
   def exchange(amount, from, :USD) do
-    case Currency.is_valid?(from) do
+    case Coin.is_valid?(from) do
       true ->
-        rates = FinancialSystem.Currency.parse("currency_rates.txt")
+        rates = FinancialSystem.Coin.examiner("currency_rates.txt")
         value_amount = Decimal.from_float(amount)
         rate_from = Decimal.from_float(rates[from])
 

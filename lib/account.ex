@@ -4,7 +4,7 @@ defmodule FinancialSystem.Account do
   """
 
   @enforce_keys [:name, :email]
-  defstruct name: nil, email: nil, balance: Money.new(0, :BRL)
+  defstruct name: nil, email: nil, balance: Money
 
   alias __MODULE__
 

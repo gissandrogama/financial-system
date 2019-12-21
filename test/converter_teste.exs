@@ -1,6 +1,6 @@
 defmodule ConverterTest do
   use ExUnit.Case
-  doctest FinancialSystem.Currency
+  doctest FinancialSystem.Converter
 
   # Using function exchange!, returning the converted value
   test "cross currency conversion test: :BRL to :USD, return " do
@@ -15,7 +15,7 @@ defmodule ConverterTest do
     FinancialSystem.Converter.exchange!(100.00, :USD, :USD) == 100.0
   end
 
-  # Using function exchange, returning the converted 
+  # Using function exchange, returning the converted
   test "cross currency conversion test: :BRL to :AFN, return " do
     FinancialSystem.Converter.exchange(100.00, :BRL, :AFN) == 2191.54
   end
@@ -40,5 +40,4 @@ defmodule ConverterTest do
       FinancialSystem.Converter.exchange(1.00, :RRR, :USD)
     end
   end
-
 end
