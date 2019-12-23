@@ -5,10 +5,13 @@ use Mix.Config
 config :money,
   default_currency: :BRL,
   separator: ".",
-  delimeter: ",",
+  delimiter: ",",
   symbol: false,
   symbol_on_right: false,
-  symbol_space: false
+  symbol_space: false,
+  fractional_unit: true,
+  strip_insignificant_zeros: false
+
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
