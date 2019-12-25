@@ -12,15 +12,21 @@ defmodule FinancialSystem do
 
   """
 
-  @spec translation(Account.t(), Account.t() | [Account.t()], integer) ::
-    {Account.t(), Account.t() | [Account.t()]} | {:error, String.t()}
-  def translation(from_account, to_account, value) do
-    case balance_enough?(from_account, value) do
+  @spec transaction(Account.t(), Account.t() | [Account.t()], integer) ::
+          {Account.t(), Account.t() | [Account.t()]} | {:error, String.t()}
+  def transaction(from_account, to_account, value) do
+    case balance_enough?(from_account.balance, value) do
       true ->
-        split_value =
-        value / length(to_account)
-        |> Decimal.from_float()
-        |> Decimal.round()
+        split_value = div(value, length(to_account))
+        transaction_result = Enum.map(to_account, fn x ->
+          deposit(x, x.balance, :balance, split_value)
+        end)
+        updated_to_accounts =
+        for  dest_result <- transaction_result do
+          dest_result
+        end
+        from_account = debit(from_account, from_account.balance, :balance, value)
+        {from_account, updated_to_accounts}
       false ->
         {:error, "Not enough money. (balance #{from_account.balance.amount})"}
     end
