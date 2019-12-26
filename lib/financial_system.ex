@@ -37,8 +37,6 @@ defmodule FinancialSystem do
     end
   end
 
-
-
   @doc """
   Funciotion to debit of a value in a account specifies
 
