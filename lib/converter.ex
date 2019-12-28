@@ -1,10 +1,11 @@
 defmodule FinancialSystem.Converter do
   alias FinancialSystem.Coin, as: Coin
+  alias FinancialSystem.Account, as: Account
 
   @moduledoc """
   Module that treats operations such as currency conversion.
   """
-
+  
   @doc false
   def exchange(amount, from_coin, to_coin) when from_coin == to_coin do
     case Coin.is_valid?(from_coin) do
@@ -29,6 +30,8 @@ defmodule FinancialSystem.Converter do
           Decimal.mult(value_amount, rate_to)
           |> Decimal.round(2)
           |> Decimal.to_float()
+          |> to_int()
+          
 
         {:ok, converted_amount}
 
@@ -48,6 +51,8 @@ defmodule FinancialSystem.Converter do
           Decimal.div(value_amount, rate_from)
           |> Decimal.round(2)
           |> Decimal.to_float()
+          |> to_int()
+                  
 
         {:ok, converted_amount}
 
@@ -57,7 +62,9 @@ defmodule FinancialSystem.Converter do
   end
 
   @doc """
+  
 
+  ##Examples  
   """
   @spec exchange(float, atom, atom) :: {:ok, float} | {:error, String.t()}
   def exchange(amount, from, to) do
@@ -75,4 +82,6 @@ defmodule FinancialSystem.Converter do
       {:error, reason} -> raise(reason)
     end
   end
+  
+  defp to_int(value), do: round(100 * value)
 end

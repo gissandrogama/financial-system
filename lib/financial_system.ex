@@ -17,7 +17,11 @@ defmodule FinancialSystem do
   def transaction(from_account, to_account, value) when is_list(to_account) do
     case balance_enough?(from_account.balance, value) do
       true ->
-        split_value = div(value, length(to_account))
+        value_float = value / 100
+        to_account_convert = List.first(to_account)
+        value_up = Converter.exchange!(value_float, from_account.balance.currency, to_account_convert.balance.currency)
+        
+        split_value = div(value_up, length(to_account))
 
         transaction_result =
           Enum.map(to_account, fn x ->
