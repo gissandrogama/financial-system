@@ -41,10 +41,11 @@ defmodule FinancialSystem do
     end
   end
 
-  @doc """
-  Funciotion to debit of a value in a account specifies
+  @doc """  
+  The function of debiting a value to a specific account. It takes as its argument an account structure, money, an atom, and a value.
 
   ## Examples
+
   """
 
   @spec debit(Account.t(), Money.t(), atom, integer) :: Account.t() | {:error, String.t()}
@@ -60,7 +61,7 @@ defmodule FinancialSystem do
   end
 
   @doc """
-  Funciotion to debit of a value in a account specifies
+  Funciotion to deposit of a value in a account specifies
 
   ##Examples
   """
