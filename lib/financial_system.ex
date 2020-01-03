@@ -18,10 +18,27 @@ defmodule FinancialSystem do
     case balance_enough?(from_account.balance, value) do
       true ->
         value_float = value / 100
+
+        to_account_mod = List.first(to_account)
+
+        value_transfer =
+          Converter.exchange(
+            value_float,
+            from_account.balance.currency,
+            to_account_mod.balance.currency
+          )
+          |> to_int()
+
+        split_value = div(value_transfer, length(to_account))
+
         to_account_convert = List.first(to_account)
-        value_up = Converter.exchange!(value_float, from_account.balance.currency, to_account_convert.balance.currency)
-        
-        split_value = div(value_up, length(to_account))
+
+        value_up =
+          Converter.exchange(
+            value_float,
+            from_account.balance.currency,
+            to_account_convert.balance.currency
+          )
 
         transaction_result =
           Enum.map(to_account, fn x ->
@@ -41,7 +58,7 @@ defmodule FinancialSystem do
     end
   end
 
-  @doc """  
+  @doc """
   The function of debiting a value to a specific account. It takes as its argument an account structure, money, an atom, and a value.
 
   ## Examples
@@ -72,13 +89,20 @@ defmodule FinancialSystem do
     up_account(account, key, current)
   end
 
+  @spec balance_enough?(Money.t(), integer) :: boolean
+  def balance_enough?(balance, value) do
+    balance.amount >= value or balance.amount < 0
+  end
+
   @spec up_account(Account.t(), atom, Money.t()) :: Account.t()
   defp up_account(account, key, current) do
     Map.put(account, key, current)
   end
 
-  @spec balance_enough?(Money.t(), integer) :: boolean
-  def balance_enough?(balance, value) do
-    balance.amount >= value
+  @spec consult(atom | %{balance: Money.t(), name: any}) :: :ok
+  def consult(account) do
+    IO.puts("#{account.name}, your balance is: #{Money.to_string(account.balance)}")
   end
+
+  defp to_int(value), do: trunc(100 * value)
 end
