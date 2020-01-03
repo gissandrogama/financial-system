@@ -33,13 +33,6 @@ defmodule FinancialSystem do
 
         to_account_convert = List.first(to_account)
 
-        value_up =
-          Converter.exchange(
-            value_float,
-            from_account.balance.currency,
-            to_account_convert.balance.currency
-          )
-
         transaction_result =
           Enum.map(to_account, fn x ->
             deposit(x, x.balance, :balance, split_value)
