@@ -31,8 +31,6 @@ defmodule FinancialSystem do
 
         split_value = div(value_transfer, length(to_account))
 
-        to_account_convert = List.first(to_account)
-
         transaction_result =
           Enum.map(to_account, fn x ->
             deposit(x, x.balance, :balance, split_value)
