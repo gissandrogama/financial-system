@@ -1,6 +1,5 @@
 defmodule FinancialSystem.Converter do
   alias FinancialSystem.Coin, as: Coin
-  alias FinancialSystem.Account, as: Account
 
   @moduledoc """
   Module that treats operations such as currency conversion.
@@ -10,12 +9,12 @@ defmodule FinancialSystem.Converter do
   def exchange(amount, from_coin, to_coin) when from_coin == to_coin do
     case Coin.is_valid?(from_coin) do
       true -> amount
-      false -> {:error, "1Coin (#{from_coin}) not valid compared to ISO 4271"}
+      false -> {:error, "Coin (#{from_coin}) not valid compared to ISO 4271"}
     end
 
     case Coin.is_valid?(to_coin) do
       true -> amount
-      false -> {:error, "2Coin (#{to_coin}) not valid compared to ISO 4271"}
+      false -> {:error, "Coin (#{to_coin}) not valid compared to ISO 4271"}
     end
   end
 
@@ -30,12 +29,11 @@ defmodule FinancialSystem.Converter do
           Decimal.div(value_amount, rate_from)
           |> Decimal.round(2)
           |> Decimal.to_float()
-          |> to_int()
 
         converted_amount
 
       false ->
-        {:error, "3Coin (#{from}) not valid compared to ISO 4271"}
+        {:error, "Coin (#{from}) not valid compared to ISO 4271"}
     end
   end
 
@@ -50,12 +48,11 @@ defmodule FinancialSystem.Converter do
           Decimal.mult(value_amount, rate_to)
           |> Decimal.round(2)
           |> Decimal.to_float()
-          |> to_int()
 
         converted_amount
 
       false ->
-        {:error, "4Coin (#{to}) not valid compared to ISO 4271"}
+        {:error, "Coin (#{to}) not valid compared to ISO 4271"}
     end
   end
 
@@ -86,6 +83,4 @@ defmodule FinancialSystem.Converter do
   #     {:error, reason} -> reason
   #   end
   # end
-
-  defp to_int(value), do: round(100 * value)
 end
