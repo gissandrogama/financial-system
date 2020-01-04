@@ -3,37 +3,62 @@ defmodule FinancialSystem do
   alias FinancialSystem.Converter, as: Converter
 
   @moduledoc """
-  Documentation for FinancialSystem.
+  After you create accounts with the Account module, you can register with the functions available in 
+  the FinancialSystem module.
   """
 
   @doc """
-
+  Transaction function is in charge of making transfers between accounts, the accounts may without the same or different
+  currencies, if they are different currencies the value is converted.
+  
+  The role receives an account and a list of accounts.
+  
   ##Examples
+
+  #### transfer with same currency accounts, :BRL to :BRL.
+
+  iex(9)> {account1, [account4]} = FinancialSystem.transaction(account1, [account4], 10_00)
+  {%FinancialSystem.Account{
+   balance: %Money{amount: 49000, currency: :BRL},
+   email: "henrygama@gmail.com",
+   name: "Henry"
+  },
+  [
+   %FinancialSystem.Account{
+     balance: %Money{amount: 51000, currency: :BRL},
+     email: "rangel@gmail.com",
+     name: "Rangel"
+   }
+  ]}
+
+  #### transfer with same currency accounts
 
   """
 
   @spec transaction(Account.t(), [Account.t()], integer) ::
           {Account.t(), [Account.t()]} | {:error, String.t()}
-  def transaction(from_account, to_account, value) when is_list(to_account) do
+  def transaction(from_account, to_accounts, value) when is_list(to_accounts) do
     case balance_enough?(from_account.balance, value) do
       true ->
         value_float = value / 100
+        
+        split_value = value_float / length(to_accounts)
+                
+        values_transfer =
+          Enum.map(to_accounts, fn accounts ->
+            Converter.exchange(
+              split_value,
+              from_account.balance.currency,
+              accounts.balance.currency
+            )
+            |> to_int()
+          end)
 
-        to_account_mod = List.first(to_account)
-
-        value_transfer =
-          Converter.exchange(
-            value_float,
-            from_account.balance.currency,
-            to_account_mod.balance.currency
-          )
-          |> to_int()
-
-        split_value = div(value_transfer, length(to_account))
-
+        accounts_values = Enum.zip(to_accounts, values_transfer)
+              
         transaction_result =
-          Enum.map(to_account, fn x ->
-            deposit(x, x.balance, :balance, split_value)
+          Enum.map(accounts_values, fn {accounts, values} ->
+            deposit(accounts, accounts.balance, :balance, values)
           end)
 
         updated_to_accounts =
@@ -95,5 +120,5 @@ defmodule FinancialSystem do
     IO.puts("#{account.name}, your balance is: #{Money.to_string(account.balance)}")
   end
 
-  defp to_int(value), do: trunc(100 * value)
+  defp to_int(money), do: trunc(100 * money)
 end
