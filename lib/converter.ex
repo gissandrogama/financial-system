@@ -2,7 +2,8 @@ defmodule FinancialSystem.Converter do
   alias FinancialSystem.Coin, as: Coin
 
   @moduledoc """
-  Module that treats operations such as currency conversion.
+  Module that deals with operations such as currency value conversion. Uses the dollar as a base to make the other conversions.
+  If the currency is not ISO 4217 standard and an error is returned.
   """
 
   @doc false
@@ -57,9 +58,23 @@ defmodule FinancialSystem.Converter do
   end
 
   @doc """
-
+  The exchange function takes as arguments a value such as float and two types of atom currencies.
+  And it uses axillary functions to perform currency conversion and verification operations.
+  To perform the conversion of values ​​is based on a txt file, to get the values ​​for each currency.
 
   ##Examples
+  iex(1)> FinancialSystem.Converter.exchange(100.00, :BRL, :USD)
+  31.6
+  iex(2)> FinancialSystem.Converter.exchange(100.00, :USD, :BRL)
+  316.42
+  iex(3)> FinancialSystem.Converter.exchange(100.00, :BRL, :ANF)
+  {:error, "Coins (BRL 'or' ANF) not valid compared to ISO 4271"}
+  iex(4)> FinancialSystem.Converter.exchange(100.00, :BRL, :AFN)
+  2191.54
+  iex(5)> FinancialSystem.Converter.exchange(100.00, :AFN, :BRL)
+  4.56
+  iex(6)> FinancialSystem.Converter.exchange(100.00, :AFF, :USD)
+  {:error, "Coin (AFF) not valid compared to ISO 4271"}
   """
   @spec exchange(float, atom, atom) :: float | {:error, String.t()}
   def exchange(amount, from, to) do
@@ -72,15 +87,4 @@ defmodule FinancialSystem.Converter do
         FinancialSystem.Converter.exchange(usd_value, :USD, to)
     end
   end
-
-  # @doc """
-
-  # """
-  # @spec exchange!(float, atom, atom) :: float | no_return
-  # def exchange!(amount, from_coin, to_coin) do
-  #   case exchange(amount, from_coin, to_coin) do
-  #     {:ok, result} -> result
-  #     {:error, reason} -> reason
-  #   end
-  # end
 end
