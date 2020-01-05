@@ -3,19 +3,19 @@ defmodule FinancialSystem do
   alias FinancialSystem.Converter, as: Converter
 
   @moduledoc """
-  After you create accounts with the Account module, you can register with the functions available in 
+  After you create accounts with the Account module, you can register with the functions available in
   the FinancialSystem module.
   """
 
   @doc """
   Transaction function is in charge of making transfers between accounts, the accounts may without the same or different
   currencies, if they are different currencies the value is converted.
-  
+
   The role receives an account and a list of accounts.
-  
+
   ##Examples
 
-  #### transfer with same currency accounts, :BRL to :BRL.
+  ####transfer with same currency accounts, :BRL to :BRL.
 
   iex(9)> {account1, [account4]} = FinancialSystem.transaction(account1, [account4], 10_00)
   {%FinancialSystem.Account{
@@ -31,8 +31,45 @@ defmodule FinancialSystem do
    }
   ]}
 
-  #### transfer with same currency accounts
+  ####transfer with different currency accounts
+  iex(4)> {account3, [account1, account2]} = FinancialSystem.transaction(account3, [account1, account2], 1000_00)
+  {%FinancialSystem.Account{
+   balance: %Money{amount: 400000, currency: :AFN},
+   email: "gissandrogama@gmail.com",
+   name: "Gissandro"
+  },
+  [
+   %FinancialSystem.Account{
+     balance: %Money{amount: 52281, currency: :BRL},
+     email: "henrygama@gmail.com",
+     name: "Henry"
+   },
+   %FinancialSystem.Account{
+     balance: %Money{amount: 50721, currency: :USD},
+     email: "luanagama@gmail.com",
+     name: "Luana"
+   }
+  ]}
 
+  checking how much each account has balance
+  iex(5)> account1
+  %FinancialSystem.Account{
+    balance: %Money{amount: 52281, currency: :BRL},
+    email: "henrygama@gmail.com",
+    name: "Henry"
+  }
+  iex(6)> account2
+  %FinancialSystem.Account{
+    balance: %Money{amount: 50721, currency: :USD},
+    email: "luanagama@gmail.com",
+    name: "Luana"
+  }
+  iex(7)> account3
+    %FinancialSystem.Account{
+    balance: %Money{amount: 400000, currency: :AFN},
+    email: "gissandrogama@gmail.com",
+    name: "Gissandro"
+  }
   """
 
   @spec transaction(Account.t(), [Account.t()], integer) ::
@@ -41,9 +78,9 @@ defmodule FinancialSystem do
     case balance_enough?(from_account.balance, value) do
       true ->
         value_float = value / 100
-        
+
         split_value = value_float / length(to_accounts)
-                
+
         values_transfer =
           Enum.map(to_accounts, fn accounts ->
             Converter.exchange(
@@ -55,7 +92,7 @@ defmodule FinancialSystem do
           end)
 
         accounts_values = Enum.zip(to_accounts, values_transfer)
-              
+
         transaction_result =
           Enum.map(accounts_values, fn {accounts, values} ->
             deposit(accounts, accounts.balance, :balance, values)
@@ -75,9 +112,10 @@ defmodule FinancialSystem do
   end
 
   @doc """
-  The function of debiting a value to a specific account. It takes as its argument an account structure, money, an atom, and a value.
+  The function of debiting a value to a specific account.
+  It takes as its argument an account structure, money, an atom and an integer value.
 
-  ## Examples
+  ##Examples
 
   """
 
