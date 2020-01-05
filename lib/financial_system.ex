@@ -155,7 +155,16 @@ defmodule FinancialSystem do
     up_account(account, key, current)
   end
 
-  
+  @doc """
+  The function 'balance_enough?' checks if the account have balance to do  operations.
+  She return true ou false.
+
+  ##Examples
+  iex(10)> FinancialSystem.balance_enough?(account1.balance, 100_00)
+  true
+  iex(11)> FinancialSystem.balance_enough?(account1.balance, 1000_00)
+  false
+  """
   @spec balance_enough?(Money.t(), integer) :: boolean
   def balance_enough?(balance, value) do
     balance.amount >= value or balance.amount < 0
@@ -166,6 +175,17 @@ defmodule FinancialSystem do
     Map.put(account, key, current)
   end
 
+  @doc """
+  The function 'consult' shows the balance more friendly way.
+
+  ##Examples
+  iex(12)> FinancialSystem.consult(account1)
+  Henry, your balance is: R$522.81
+  :ok
+  iex(13)> FinancialSystem.consult(account2)
+  Luana, your balance is: $507.21
+  :ok
+  """
   @spec consult(atom | %{balance: Money.t(), name: any}) :: :ok
   def consult(account) do
     IO.puts("#{account.name}, your balance is: #{Money.to_string(account.balance)}")
