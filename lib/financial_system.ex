@@ -113,10 +113,15 @@ defmodule FinancialSystem do
 
   @doc """
   The function of debiting a value to a specific account.
-  It takes as its argument an account structure, money, an atom and an integer value.
+  It takes as its argument an account structure, %Money{}, an atom and an integer value.
 
   ##Examples
-
+  iex(8)> account1 = FinancialSystem.debit(account1, account1.balance, :balance, 10_00)
+  %FinancialSystem.Account{
+    balance: %Money{amount: 51281, currency: :BRL},
+    email: "henrygama@gmail.com",
+    name: "Henry"
+  }
   """
 
   @spec debit(Account.t(), Money.t(), atom, integer) :: Account.t() | {:error, String.t()}
@@ -132,9 +137,16 @@ defmodule FinancialSystem do
   end
 
   @doc """
-  Funciotion to deposit of a value in a account specifies
+  Funciotion to deposit, a value in a account specifies.
+  This function also receive the sames arguments what the function debit.
 
   ##Examples
+  iex(9)> account1 = FinancialSystem.deposit(account1, account1.balance, :balance, 10_00)
+  %FinancialSystem.Account{
+    balance: %Money{amount: 52281, currency: :BRL},
+    email: "henrygama@gmail.com",
+    name: "Henry"
+  }
   """
 
   @spec deposit(Account.t(), Money.t(), atom, integer) :: Account.t()
@@ -143,6 +155,7 @@ defmodule FinancialSystem do
     up_account(account, key, current)
   end
 
+  
   @spec balance_enough?(Money.t(), integer) :: boolean
   def balance_enough?(balance, value) do
     balance.amount >= value or balance.amount < 0
