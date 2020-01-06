@@ -26,6 +26,12 @@ A simple system designed for Stone's technical challenge, this system was develo
 
 # Some examples of how to use the system
 
+  It is important when doing operations that you have to set the value to '_00'. For monetary operations to go well.
+
+## Example
+
+If you want to create an account with a balance of '$ 250.47' the amount to be passed will be 250_47.
+
 ## Create account
 
 ```elixir
