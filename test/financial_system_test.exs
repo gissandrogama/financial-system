@@ -16,13 +16,13 @@ defmodule FinancialSystemTest do
     assert FinancialSystem.transaction(from_account, [to_account], 10_00)
   end
 
-  test "User cannot transfer if not enough money available on the account", %{account1: from_account, account2: to_account} do
-    assert_raise RuntimeError, fn -> FinancialSystem.transaction(from_account, [to_account], 2000_00)
-    assert FinancialSystem.balance_enough?(from_account, 2000_00) 
+  test "User cannot transfer if not enough money available on the account", %{account1: from_account} do
+    assert FinancialSystem.balance_enough?(from_account, 2000_00) == false 
   end
 
   test "A transfer should be cancelled if an error occurs" do
-    assert false
+     # Transfer with invalid account
+     assert_raise FunctionClauseError, fn -> FinancialSystem.transfer(account1, nil, 50_00) end
   end
 
   test "A transfer can be splitted between 2 or more accounts" do
