@@ -1,26 +1,5 @@
 # FinancialSystem
 
-**TODO: Add description**
-
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `financial_system` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:financial_system, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/financial_system](https://hexdocs.pm/financial_system).
-
-# Financial-system
-
 A simple system designed for Stone's technical challenge, this system was developed in the Elixir language. It has module and functions that allow the creation of an account, analyze if the currency is in the standards of [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217), conversion of values ​​between currencies of different, transfer between accounts, deposit of a value and debit.
 
 # Requirements and Dependencies
