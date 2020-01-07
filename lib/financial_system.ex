@@ -13,63 +13,17 @@ defmodule FinancialSystem do
 
   The role receives an account and a list of accounts.
 
-  ##Examples
+  ## Examples
 
-  ####transfer with same currency accounts, :BRL to :BRL.
-
-  iex(9)> {account1, [account4]} = FinancialSystem.transaction(account1, [account4], 10_00)
-  {%FinancialSystem.Account{
-   balance: %Money{amount: 49000, currency: :BRL},
-   email: "henrygama@gmail.com",
-   name: "Henry"
-  },
-  [
-   %FinancialSystem.Account{
-     balance: %Money{amount: 51000, currency: :BRL},
-     email: "rangel@gmail.com",
-     name: "Rangel"
-   }
-  ]}
-
-  ####transfer with different currency accounts
-  iex(4)> {account3, [account1, account2]} = FinancialSystem.transaction(account3, [account1, account2], 1000_00)
-  {%FinancialSystem.Account{
-   balance: %Money{amount: 400000, currency: :AFN},
-   email: "gissandrogama@gmail.com",
-   name: "Gissandro"
-  },
-  [
-   %FinancialSystem.Account{
-     balance: %Money{amount: 52281, currency: :BRL},
-     email: "henrygama@gmail.com",
-     name: "Henry"
-   },
-   %FinancialSystem.Account{
-     balance: %Money{amount: 50721, currency: :USD},
-     email: "luanagama@gmail.com",
-     name: "Luana"
-   }
-  ]}
-
-  checking how much each account has balance
-  iex(5)> account1
-  %FinancialSystem.Account{
-    balance: %Money{amount: 52281, currency: :BRL},
-    email: "henrygama@gmail.com",
-    name: "Henry"
-  }
-  iex(6)> account2
-  %FinancialSystem.Account{
-    balance: %Money{amount: 50721, currency: :USD},
-    email: "luanagama@gmail.com",
-    name: "Luana"
-  }
-  iex(7)> account3
-    %FinancialSystem.Account{
-    balance: %Money{amount: 400000, currency: :AFN},
-    email: "gissandrogama@gmail.com",
-    name: "Gissandro"
-  }
+  #### transfer with same currency accounts, :BRL to :BRL.
+  
+       {account1, [account4]} = FinancialSystem.transaction(account1, [account4], 10_00)
+ 
+  
+  #### transfer with different currency accounts
+   
+       {account3, [account1, account2]} = FinancialSystem.transaction(account3, [account1, account2], 1000_00)
+         
   """
 
   @spec transaction(Account.t(), [Account.t()], integer) ::
@@ -115,13 +69,9 @@ defmodule FinancialSystem do
   The function of debiting a value to a specific account.
   It takes as its argument an account structure, %Money{}, an atom and an integer value.
 
-  ##Examples
-  iex(8)> account1 = FinancialSystem.debit(account1, account1.balance, :balance, 10_00)
-  %FinancialSystem.Account{
-    balance: %Money{amount: 51281, currency: :BRL},
-    email: "henrygama@gmail.com",
-    name: "Henry"
-  }
+  ##Examples   
+    
+    account1 = FinancialSystem.debit(account1, account1.balance, :balance, 10_00)
   """
 
   @spec debit(Account.t(), Money.t(), atom, integer) :: Account.t() | {:error, String.t()}
@@ -140,13 +90,9 @@ defmodule FinancialSystem do
   Funciotion to deposit, a value in a account specifies.
   This function also receive the sames arguments what the function debit.
 
-  ##Examples
-  iex(9)> account1 = FinancialSystem.deposit(account1, account1.balance, :balance, 10_00)
-  %FinancialSystem.Account{
-    balance: %Money{amount: 52281, currency: :BRL},
-    email: "henrygama@gmail.com",
-    name: "Henry"
-  }
+  ##Examples   
+    
+    account1 = FinancialSystem.deposit(account1, account1.balance, :balance, 10_00)
   """
 
   @spec deposit(Account.t(), Money.t(), atom, integer) :: Account.t()
@@ -159,11 +105,9 @@ defmodule FinancialSystem do
   The function 'balance_enough?' checks if the account have balance to do  operations.
   She return true ou false.
 
-  ##Examples
-  iex(10)> FinancialSystem.balance_enough?(account1.balance, 100_00)
-  true
-  iex(11)> FinancialSystem.balance_enough?(account1.balance, 1000_00)
-  false
+  ##Examples  
+  
+    FinancialSystem.balance_enough?(account1.balance, 100_00)
   """
   @spec balance_enough?(Money.t(), integer) :: boolean
   def balance_enough?(balance, value) do
@@ -179,13 +123,11 @@ defmodule FinancialSystem do
   The function 'consult' shows the balance more friendly way.
 
   ##Examples
-  iex(12)> FinancialSystem.consult(account1)
-  Henry, your balance is: R$522.81
-  :ok
-  iex(13)> FinancialSystem.consult(account2)
-  Luana, your balance is: $507.21
-  :ok
+  
+    FinancialSystem.consult(account1)
+    
   """
+
   @spec consult(atom | %{balance: Money.t(), name: any}) :: :ok
   def consult(account) do
     IO.puts("#{account.name}, your balance is: #{Money.to_string(account.balance)}")
