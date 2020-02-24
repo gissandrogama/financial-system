@@ -104,13 +104,14 @@ defmodule FinancialSystem.Coin do
       response
       |> Enum.map(fn {_currency, value} -> value end)
 
-    # deixar apenas dos simbolos de moedas 
+    # deixar apenas os simbolos de moedas 
     response_currecy =
       response
       |> Enum.map(fn {currency, _value} -> currency end)
       # remover o prefixo USD
       |> Enum.map(fn x -> prefix_remove(x, "USD") end)
 
+    #junta as variaveis em uma lista
     Enum.zip(response_currecy, response_value)    
   end
 
