@@ -62,15 +62,17 @@ defmodule FinancialSystem.Coin do
     ...
   ]
 
-  """
+  """ 
+
+  # pegar o resultado da consulta com o Tesla.get e passar para a função examiner
 
   @spec examiner(String.t()) :: [key: float]
   def examiner(file) do
     file
     |> File.read!()
-    |> String.split("\n")
+    |> String.split(",")
     |> Enum.map(fn x ->
-      [currency, rate] = String.split(x, ":")
+      [{currency, rate}] = String.split(x, ",")
 
       key =
         currency

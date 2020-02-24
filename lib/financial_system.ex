@@ -16,10 +16,10 @@ defmodule FinancialSystem do
   ## Examples
 
   #### transfer with same currency accounts, :BRL to :BRL.
-  
+
        {account1, [account4]} = FinancialSystem.transaction(account1, [account4], 10_00)
- 
-  
+
+
   #### transfer with different currency accounts
    
        {account3, [account1, account2]} = FinancialSystem.transaction(account3, [account1, account2], 1000_00)
@@ -106,7 +106,7 @@ defmodule FinancialSystem do
   She return true ou false.
 
   ##Examples  
-  
+
     FinancialSystem.balance_enough?(account1.balance, 100_00)
   """
   @spec balance_enough?(Money.t(), integer) :: boolean
@@ -123,7 +123,7 @@ defmodule FinancialSystem do
   The function 'consult' shows the balance more friendly way.
 
   ##Examples
-  
+
     FinancialSystem.consult(account1)
     
   """
