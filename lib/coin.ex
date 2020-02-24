@@ -27,13 +27,72 @@ defmodule FinancialSystem.Coin do
   def currency_list() do
     {:ok, response} = get("/list?%20access_key=#{@api_key}")
     response = response.body
-    response = Map.fetch(response, "currencies")
-    response = elem(response, 1)
-
-    currency =
-      response
-      |> Enum.map(fn {currency, _descrition} -> String.to_atom(currency) end)
+    response
+    |> Map.fetch("currencies")
+    |> elem(1)    
+    |> Enum.map(fn {currency, _descrition} -> String.to_atom(currency) end)
   end
+
+  @doc """   
+  The currency rate function displays a list with currency quotes based on the dollar, 
+  values ​​updated due to the information being taken from a specific currency quote api. 
+
+  #Example
+    iex(1)> FinancialSystem.Coin.currency_rate
+    [
+      {"GMD", 50.85039},
+      {"UGX", 3674.701304},
+      {"PYG", 6543.400804},
+      {"QAR", 3.641038},
+      {"BMD", 1},
+      {"KPW", 900},
+      {"NZD", 1.575313},
+      {"HUF", 310.530388},
+      {"SHP", 0.77161},
+      {"ZMK", 9001.203593},
+      {"MGA", 3720.000347},
+      {"BYR", 19600},
+      {"XAF", 607.33948},
+      {"MVR", 15.403741},
+      {"DZD", 120.750393},
+      {"FJD", 2.21625},
+      {"NGN", 363.503727},
+      {"SYP", 514.99882},
+      {"GHS", 5.32039},
+      {"SVC", 8.753697},
+      {"NOK", 9.280904},
+      {"MXN", 18.911104},
+      {"MAD", 9.702504},
+      {"SDG", 53.250372},
+      {"AOA", 492.989504},
+      {"GEL", 2.82504},
+      {"MRO", 357.000035},
+      {"PKR", 154.303704},
+      {"LRD", 197.000348},
+      {"SGD", 1.39764},
+      {"ZAR", 15.00329},
+      {"SLL", 9725.000339},
+      {"KGS", 69.850385},
+      {"MNT", 2762.596916},
+      {"SRD", 7.458038},
+      {"NPR", 115.24929},
+      {"MMK", 1452.766404},
+      {"BDT", 84.98486},
+      {"TOP", 2.320804},
+      {"KYD", 0.833708},
+      {"RON", 4.423204},
+      {"DJF", 177.720394},
+      {"ANG", 1.790828},
+      {"SEK", 9.72032},
+      {"RUB", 64.074304},
+      {"MOP", 8.02648},
+      {"CDF", 1696.000362},
+      {"CRC", 570.39296},
+      {"GYD", ...},
+      {...},
+      ...
+    ]
+  """  
 
   def currency_rate() do
     {:ok, response} = get("live?access_key=#{@api_key}&format=1")
@@ -53,9 +112,7 @@ defmodule FinancialSystem.Coin do
       # remover o prefixo USD
       |> Enum.map(fn x -> prefix_remove(x, "USD") end)
 
-    currency_value = Enum.zip(response_currecy, response_value)
-
-    Coin.examiner(currency_value)
+    currency_value = Enum.zip(response_currecy, response_value)    
   end
 
   # function to remove prefix of a string
