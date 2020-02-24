@@ -8,6 +8,9 @@ A simple system designed for Stone's technical challenge, this system was develo
 * [Decimal](https://hexdocs.pm/decimal/readme.html) 1.8 - For deal with operation arithmetic with float.
 * [Money](https://hexdocs.pm/money/Money.html) 1.6.1 - For deal with de operation with money and symbol of currency.
 * [Dialixir](https://github.com/jeremyjh/dialyxir) 0.5 - library that simplifies the use of Dialyzer.
+* [Tesla](https://github.com/teamon/tesla) 1.3.0 - The flexible HTTP client library for Elixir, with support for middleware and multiple adapters.
+* [jason](https://hexdocs.pm/jason/Jason.html) 1.1.2 - A blazing fast JSON parser and generator in pure Elixir.
+* [Hackney](https://github.com/benoitc/hackney) 1.15.2 - Simple HTTP client in Erlang
 
 # Used
 
