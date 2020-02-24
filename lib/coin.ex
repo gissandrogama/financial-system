@@ -1,86 +1,67 @@
 defmodule FinancialSystem.Coin do
+  use Tesla
+
+  plug(Tesla.Middleware.BaseUrl, "http://apilayer.net/api")
+  plug(Tesla.Middleware.JSON)
+  plug(Tesla.Middleware.DecodeJson)
+
+  @api_key "17dab43de91dedc4ea8e0dc86ec3ae69"
+
   @moduledoc """
-  The 'Coin' module pussi functions that handles the txt file that has currency information and checks if the currency is valid as stipulated by ISO 4217.
+  The 'Coin' module it has functions that handles the txt file that has currency information and checks if the currency is valid as stipulated by ISO 4217.
+  Rates and currencies are requested from the website https://currencylayer.com/ using a free trial api. 
+  To handle the information obtained behind the requests, libs tesla, jason and hackney were used.
   """
 
-  @doc """
-  Parse of files of text that have information of currencies and exchange values based in the dollar.
+  @doc """  
+  The function currency_list displays a list with the atoms that correspond to all currencies considered by ISO 4217. 
 
-  ##Examples
-  FinancialSystem.Coin.examiner('/home/henry/tech_challenge/financial-system/currency_rates.txt')
-  [
-    AED: 3.672973,
-    AFN: 69.3525,
-    ALL: 107.65,
-    AMD: 480.825,
-    ANG: 1.784744,
-    AOA: 203.14,
-    ARS: 19.6576,
-    AUD: 1.234472,
-    AWG: 1.789995,
-    AZN: 1.689,
-    BAM: 1.570105,
-    BBD: 2.0,
-    BDT: 83.287,
-    BGN: 1.569349,
-    BHD: 0.37699,
-    BIF: 177.0,
-    BMD: 1.0,
-    BND: 1.307743,
-    BOB: 6.909021,
-    BRL: 3.164171,
-    BSD: 1.0,
-    BTC: 9.9312436e-5,
-    BTN: 63.58307,
-    BWP: 9.533843,
-    BYN: 1.977403,
-    BZD: 2.00969,
-    CAD: 1.227243,
-    CDF: 1601.0,
-    CHF: 0.933104,
-    CLF: 0.02275,
-    CLP: 603.3,
-    CNH: 6.288834,
-    CNY: 6.2891,
-    COP: 2840.0,
-    CRC: 568.16,
-    CUC: 1.0,
-    CUP: 25.5,
-    CVE: 89.3,
-    CZK: 20.2828,
-    DJF: 178.57,
-    DKK: 5.970466,
-    DOP: 48.7425,
-    DZD: 113.3535,
-    EGP: 17.693,
-    ERN: 15.135,
-    ETB: 27.406384,
-    EUR: 0.802251,
-    FJD: 2.004995,
-    FKP: 0.7054,
-    GBP: 0.7054,
-    ...
-  ]
+  #Example
+    iex(2)> FinancialSystem.Coin.currency_list
+    [:XAF, :LKR, :MVR, :MUR, :OMR, :HRK, :GTQ, :NZD, :IMP, :HKD, :YER, :WST, :HNL,
+    :MNT, :KYD, :NIO, :AZN, :CAD, :ETB, :ILS, :SCR, :BYN, :COP, :ISK, :MGA, :VUV,
+    :GGP, :BHD, :LBP, :CUP, :RON, :SVC, :AED, :JEP, :XPF, :TZS, :THB, :GNF, :MKD,
+    :TOP, :GHS, :IQD, :AFN, :DZD, :PLN, :BND, :USD, :XAU, :LYD, :XAG, ...]
+  """  
 
-  """ 
+  def currency_list() do
+    {:ok, response} = get("/list?%20access_key=#{@api_key}")
+    response = response.body
+    response = Map.fetch(response, "currencies")
+    response = elem(response, 1)
 
-  # pegar o resultado da consulta com o Tesla.get e passar para a função examiner
+    currency =
+      response
+      |> Enum.map(fn {currency, _descrition} -> String.to_atom(currency) end)
+  end
 
-  @spec examiner(String.t()) :: [key: float]
-  def examiner(file) do
-    file
-    |> File.read!()
-    |> String.split(",")
-    |> Enum.map(fn x ->
-      [{currency, rate}] = String.split(x, ",")
+  def currency_rate() do
+    {:ok, response} = get("live?access_key=#{@api_key}&format=1")
+    response = response.body
+    response = Map.fetch(response, "quotes")
+    response = elem(response, 1)
+    # response = Map.to_list(response)
 
-      key =
-        currency
-        |> String.trim("\"")
-        |> String.to_atom()
+    response_value =
+      response
+      |> Enum.map(fn {_currency, value} -> value end)
 
-      {key, String.to_float(rate)}
-    end)
+    # deixar apenas dos simbolos de moedas 
+    response_currecy =
+      response
+      |> Enum.map(fn {currency, _value} -> currency end)
+      # remover o prefixo USD
+      |> Enum.map(fn x -> prefix_remove(x, "USD") end)
+
+    currency_value = Enum.zip(response_currecy, response_value)
+
+    Coin.examiner(currency_value)
+  end
+
+  # function to remove prefix of a string
+  defp prefix_remove(full, prefix) do
+    base = byte_size(prefix)
+    binary_part(full, base, byte_size(full) - base)
   end
 
   @doc """
@@ -94,8 +75,7 @@ defmodule FinancialSystem.Coin do
   """
   @spec is_valid?(atom) :: boolean()
   def is_valid?(currency_validetion) do
-    FinancialSystem.Coin.examiner("currency_rates.txt")
-    |> Keyword.keys()
+    GitHub.currency_list()
     |> Enum.any?(fn currency -> currency == currency_validetion end)
   end
 end
