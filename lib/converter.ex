@@ -26,10 +26,10 @@ defmodule FinancialSystem.Converter do
         rates = Coin.currency_rate
         value_amount = Decimal.from_float(amount)
         rate_from = 
-        rates
-        |> Enum.find(fn {currency, _value} -> currency == from end)
-        |> elem(1)
-        |> Decimal.from_float()
+          rates
+          |> Enum.find(fn {currency, _value} -> currency == from end)
+          |> elem(1)
+          |> Decimal.from_float()
 
         converted_amount =
           Decimal.div(value_amount, rate_from)
@@ -50,10 +50,10 @@ defmodule FinancialSystem.Converter do
         rates = Coin.currency_rate
         value_amount = Decimal.from_float(amount)
         rate_to = 
-        rates
-        |> Enum.find(fn {currency, _value} -> currency == to end)
-        |> elem(1)
-        |> Decimal.from_float()
+          rates
+          |> Enum.find(fn {currency, _value} -> currency == to end)
+          |> elem(1)
+          |> Decimal.from_float()
 
         converted_amount =
           Decimal.mult(value_amount, rate_to)
@@ -70,21 +70,23 @@ defmodule FinancialSystem.Converter do
   @doc """
   The exchange function takes as arguments a value such as float and two types of atom currencies.
   And it uses axillary functions to perform currency conversion and verification operations.
-  To perform the conversion of values ​​is based on a txt file, to get the values ​​for each currency.
+  To perform the conversion of values ​​is based in a cunsult api, where get the values ​​for each currency.
 
-  ##Examples
-  iex(1)> FinancialSystem.Converter.exchange(100.00, :BRL, :USD)
-  31.6
-  iex(2)> FinancialSystem.Converter.exchange(100.00, :USD, :BRL)
-  316.42
-  iex(3)> FinancialSystem.Converter.exchange(100.00, :BRL, :ANF)
-  {:error, "Coins (BRL 'or' ANF) not valid compared to ISO 4271"}
-  iex(4)> FinancialSystem.Converter.exchange(100.00, :BRL, :AFN)
-  2191.54
-  iex(5)> FinancialSystem.Converter.exchange(100.00, :AFN, :BRL)
-  4.56
-  iex(6)> FinancialSystem.Converter.exchange(100.00, :AFF, :USD)
-  {:error, "Coin (AFF) not valid compared to ISO 4271"}
+  ## Examples
+
+        iex(1)> FinancialSystem.Converter.exchange(100.00, :BRL, :USD)
+        22.79
+        iex(2)> FinancialSystem.Converter.exchange(100.00, :USD, :BRL)
+        438.82
+        iex(3)> FinancialSystem.Converter.exchange(100.00, :BRL, :ANF)
+        {:error, "Coins (BRL 'or' ANF) not valid compared to ISO 4271"}
+        iex(4)> FinancialSystem.Converter.exchange(100.00, :BRL, :AFN)
+        1753.68
+        iex(5)> FinancialSystem.Converter.exchange(100.00, :AFN, :BRL)
+        5.7
+        iex(6)> FinancialSystem.Converter.exchange(100.00, :AFF, :USD)
+        {:error, "Coin (AFF) not valid compared to ISO 4271"}
+
   """
   @spec exchange(float, atom, atom) :: float | {:error, String.t()}
   def exchange(amount, from, to) do

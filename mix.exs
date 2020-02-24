@@ -28,6 +28,8 @@ defmodule FinancialSystem.MixProject do
       {:tesla, "~> 1.3.0"},
       {:jason, "~> 1.1.2"},
       {:hackney, "~> 1.15.2"},
+      {:earmark, "~> 1.4.3", only: :dev},
+      {:ex_doc, "~> 0.21.3", only: :dev},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false}
     ]
   end

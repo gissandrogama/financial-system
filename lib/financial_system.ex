@@ -69,9 +69,10 @@ defmodule FinancialSystem do
   The function of debiting a value to a specific account.
   It takes as its argument an account structure, %Money{}, an atom and an integer value.
 
-  ##Examples   
-    
-    account1 = FinancialSystem.debit(account1, account1.balance, :balance, 10_00)
+  ## Example     
+
+        account1 = FinancialSystem.debit(account1, account1.balance, :balance, 10_00)
+
   """
 
   @spec debit(Account.t(), Money.t(), atom, integer) :: Account.t() | {:error, String.t()}
@@ -90,9 +91,10 @@ defmodule FinancialSystem do
   Funciotion to deposit, a value in a account specifies.
   This function also receive the sames arguments what the function debit.
 
-  ##Examples   
-    
-    account1 = FinancialSystem.deposit(account1, account1.balance, :balance, 10_00)
+  ## Example      
+  
+        account1 = FinancialSystem.deposit(account1, account1.balance, :balance, 10_00)
+  
   """
 
   @spec deposit(Account.t(), Money.t(), atom, integer) :: Account.t()
@@ -105,9 +107,10 @@ defmodule FinancialSystem do
   The function 'balance_enough?' checks if the account have balance to do  operations.
   She return true ou false.
 
-  ##Examples  
-
-    FinancialSystem.balance_enough?(account1.balance, 100_00)
+  ## Examples
+  
+        FinancialSystem.balance_enough?(account1.balance, 100_00)
+  
   """
   @spec balance_enough?(Money.t(), integer) :: boolean
   def balance_enough?(balance, value) do
@@ -122,10 +125,10 @@ defmodule FinancialSystem do
   @doc """
   The function 'consult' shows the balance more friendly way.
 
-  ##Examples
+  Example
+  
+        FinancialSystem.consult(account1)    
 
-    FinancialSystem.consult(account1)
-    
   """
 
   @spec consult(atom | %{balance: Money.t(), name: any}) :: :ok

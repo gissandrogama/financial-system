@@ -15,13 +15,15 @@ defmodule FinancialSystem.Account do
   @doc """
   Function for create a new account.
 
-  ##Exemples
-    account1 = FinancialSystem.Account.new("Bacara Silva","bacara@gmail.com", 100, :BRL)
-    %FinancialSystem.Account{
-      balance: %Money{amount: 100, currency: :BRL},
-      email: "bacara@gmail.com",
-      name: "Bacara Silva"
-    }
+  Example
+    
+      account1 = FinancialSystem.Account.new("Bacara Silva","bacara@gmail.com", 100, :BRL)
+      %FinancialSystem.Account{
+        balance: %Money{amount: 100, currency: :BRL},
+        email: "bacara@gmail.com",
+        name: "Bacara Silva"
+      }
+
   """
   @spec new(String.t(), String.t(), integer, atom) :: FinancialSystem.Account.t()
   def new(name, email, amount, currency) do
