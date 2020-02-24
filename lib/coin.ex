@@ -96,11 +96,10 @@ defmodule FinancialSystem.Coin do
 
   def currency_rate() do
     {:ok, response} = get("live?access_key=#{@api_key}&format=1")
-    response = response.body
-    response = Map.fetch(response, "quotes")
-    response = elem(response, 1)
-    # response = Map.to_list(response)
-
+    response = response.body 
+    |> Map.fetch("quotes")
+    |> elem(1)
+    
     response_value =
       response
       |> Enum.map(fn {_currency, value} -> value end)
@@ -112,7 +111,7 @@ defmodule FinancialSystem.Coin do
       # remover o prefixo USD
       |> Enum.map(fn x -> prefix_remove(x, "USD") end)
 
-    currency_value = Enum.zip(response_currecy, response_value)    
+    Enum.zip(response_currecy, response_value)    
   end
 
   # function to remove prefix of a string
@@ -132,7 +131,7 @@ defmodule FinancialSystem.Coin do
   """
   @spec is_valid?(atom) :: boolean()
   def is_valid?(currency_validetion) do
-    GitHub.currency_list()
+    currency_list()
     |> Enum.any?(fn currency -> currency == currency_validetion end)
   end
 end

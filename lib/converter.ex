@@ -22,9 +22,14 @@ defmodule FinancialSystem.Converter do
   def exchange(amount, from, :USD) do
     case Coin.is_valid?(from) do
       true ->
-        rates = FinancialSystem.Coin.examiner("currency_rates.txt")
+        from = Atom.to_string(from)
+        rates = Coin.currency_rate
         value_amount = Decimal.from_float(amount)
-        rate_from = Decimal.from_float(rates[from])
+        rate_from = 
+        rates
+        |> Enum.find(fn {currency, _value} -> currency == from end)
+        |> elem(1)
+        |> Decimal.from_float()
 
         converted_amount =
           Decimal.div(value_amount, rate_from)
@@ -41,9 +46,14 @@ defmodule FinancialSystem.Converter do
   def exchange(amount, :USD, to) do
     case Coin.is_valid?(to) do
       true ->
-        rates = FinancialSystem.Coin.examiner("currency_rates.txt")
+        to = Atom.to_string(to)
+        rates = Coin.currency_rate
         value_amount = Decimal.from_float(amount)
-        rate_to = Decimal.from_float(rates[to])
+        rate_to = 
+        rates
+        |> Enum.find(fn {currency, _value} -> currency == to end)
+        |> elem(1)
+        |> Decimal.from_float()
 
         converted_amount =
           Decimal.mult(value_amount, rate_to)
